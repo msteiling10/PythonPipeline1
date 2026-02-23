@@ -34,3 +34,4 @@ It was also debugged with ChatGPT
 #https://www.htslib.org/doc/
 #https://github.com/ablab/spades
 
+version as of 2/23/2026 2:08pm
