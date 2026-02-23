@@ -34,4 +34,15 @@ It was also debugged with ChatGPT
 #https://www.htslib.org/doc/
 #https://github.com/ablab/spades
 
+
+To Run:
+1. Ensure all tools are up to date/installed
+2. Retrieve code and place in a directory your feel best working in. I would recommend making your own new directory.
+3. Edit the config.yaml file. I edit through nano, but this can likely be done in any text editor. 
+    The yaml file is how snakemake interprets the samples. To run with test data or your data you replace to names of the samples
+4. The pipeline should set up folders to store your results. A folder need to be made to hold the sleuth R code under /scripts
+5. The code should run if "snakemake --cores # " is run from the terminal. I would recommend running snakemake --list to see the rules 
+    snakemake is able to see
+
+
 version as of 2/23/2026 2:46pm
