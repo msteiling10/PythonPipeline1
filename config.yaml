@@ -1,0 +1,21 @@
+transcriptome: "data/transcriptome/HCMV_CDS.fasta"
+kmer_size: 31
+report_file: "results/FinalPipelineReport.txt"
+
+samples:
+  - SRR5660030
+  - SRR5660033
+  - SRR5660044
+  - SRR5660045
+
+conditions:
+  SRR5660030: "2dpi"
+  SRR5660033: "6dpi"
+  SRR5660044: "2dpi"
+  SRR5660045: "6dpi"
+
+donors:
+  SRR5660030: "D1"
+  SRR5660033: "D1"
+  SRR5660044: "D3"
+  SRR5660045: "D3"
