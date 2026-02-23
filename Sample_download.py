@@ -3,8 +3,6 @@
 import os
 import subprocess
 from Bio import Entrez, SeqIO
-
-
 import os
 import glob
 
