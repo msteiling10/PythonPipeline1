@@ -226,9 +226,7 @@ rule blast_sample: #for comparing the sample to the blast database
             "-num_threads", str(threads)
         ], check=True)
 
-# ---------------------------------------------------
-# FINAL REPORT
-# ---------------------------------------------------
+
 
 rule final_pipeline_report:
     input:
@@ -241,23 +239,23 @@ rule final_pipeline_report:
     run:
         with open(output[0], "w") as report:
 
-            # Step 2
+
             with open(input.cds) as f:
                 report.write(f.read() + "\n")
 
-            # Step 3
+
             report.write("target_id\ttest_stat\tpval\tqval\n")
             with open(input.sleuth) as f:
                 report.write(f.read())
             report.write("\n")
 
-            # Step 4
+
             for stats in input.bowtie:
                 with open(stats) as f:
                     report.write(f.read())
             report.write("\n")
 
-            # Step 6
+
             for blast_file in input.blast:
                 sample = os.path.basename(blast_file).split("_")[0]
                 report.write(f"{sample}:\n")
