@@ -30,9 +30,7 @@ for sample in samples:
         os.remove(sra_file)
 
 print("All specified samples cleaned up.")
-# ----------------------------
-# User settings
-# ----------------------------
+
 print("Files will be written to your current working directory.")
 
 Entrez.email = input("Please enter your email for NCBI Entrez: ")
@@ -53,17 +51,13 @@ os.makedirs(READS_DIR, exist_ok=True)
 os.makedirs(TRANSCRIPTOME_DIR, exist_ok=True)
 os.makedirs(GENOME_DIR, exist_ok=True)
 
-# ----------------------------
-# Fetch GenBank record
-# ----------------------------
+
 print("Fetching HCMV GenBank record...")
 handle = Entrez.efetch(db="nuccore", id=REF_ACCESSION, rettype="gb", retmode="text")
 record = SeqIO.read(handle, "genbank")
 handle.close()
 
-# ----------------------------
-# Write full genome FASTA
-# ----------------------------
+
 genome_fasta_path = os.path.join(GENOME_DIR, "HCMV_genome.fasta")
 if not os.path.exists(genome_fasta_path):
     with open(genome_fasta_path, "w") as genome_file:
@@ -72,9 +66,7 @@ if not os.path.exists(genome_fasta_path):
 else:
     print(f"{genome_fasta_path} already exists, skipping.")
 
-# ----------------------------
-# Extract CDS sequences
-# ----------------------------
+
 cds_fasta_path = os.path.join(TRANSCRIPTOME_DIR, "HCMV_CDS.fasta")
 if not os.path.exists(cds_fasta_path):
     with open(cds_fasta_path, "w") as out_fasta:
@@ -87,9 +79,6 @@ if not os.path.exists(cds_fasta_path):
 else:
     print(f"{cds_fasta_path} already exists, skipping.")
 
-# ----------------------------
-# Download SRA reads
-# ----------------------------
 for sample in SAMPLES:
     print(f"\nProcessing sample {sample}...")
 
@@ -115,8 +104,6 @@ for sample in SAMPLES:
 
 print("\nAll files downloaded successfully. Your pipeline is ready to run.")
 
-from Bio import Entrez, SeqIO
-import os
 
 Entrez.email = "your_email@example.com"  # replace with your email
 REF_ACCESSION = "NC_006273.2"
