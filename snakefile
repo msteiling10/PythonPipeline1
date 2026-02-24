@@ -3,7 +3,7 @@
 import os #so snakemake can access the shell/os
 import subprocess #for helping manage external jobs
 
-configfile: "config.yaml" #snakemake pulls info from the file
+configfile: "config.yaml" #snakemake pulls info from the file, I chose this because it is easier to change than the actual code
 
 SAMPLES = config["samples"] #pull info from the config.file for each of there
 KMER = config["kmer_size"]
@@ -150,7 +150,7 @@ rule bowtie2_filter: #only pull mapped reads
 #the samtools sections are useful for working with the pair output, then that is converted to bam/mappedbam/fastq
 
 
-rule spades_assembly: #running spades with Kmer of 127 (must be odd) with the fastq made from bowtie2
+rule spades_assembly: #running spades with Kmer of 127 (must be odd) with the fastq sets made from bowtie2
     input:
         read1="results/bowtie2_filtered/{sample}_1.fastq",
         read2="results/bowtie2_filtered/{sample}_2.fastq"
@@ -170,15 +170,19 @@ rule spades_assembly: #running spades with Kmer of 127 (must be odd) with the fa
         """
 
 
-rule download_betaherpesvirinae: #need to make a database for more effiecint blast, only look compared to database
+rule download_betaherpesvirinae:
     output:
-        "data/db/betaherpesvirinae.fasta" #need the fasta for the database step
-    shell: #esearch is quick to grab the fasta
-        """
+        "data/db/betaherpesvirinae.fasta"
+    shell:
+        r"""
         mkdir -p data/db
 
-        esearch -db nucleotide -query "Betaherpesvirinae[Organism]" \
-        | efetch -format fasta \
+        RESPONSE=$(curl -s "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nucleotide&term=Betaherpesvirinae[Organism]&retmax=100000&usehistory=y")
+
+        WEBENV=$(echo "$RESPONSE" | grep -oP '(?<=<WebEnv>).*?(?=</WebEnv>)')
+        QUERYKEY=$(echo "$RESPONSE" | grep -oP '(?<=<QueryKey>).*?(?=</QueryKey>)')
+
+        curl -s "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&query_key=${QUERYKEY}&WebEnv=${WEBENV}&rettype=fasta&retmode=text" \
         > {output}
         """
         
