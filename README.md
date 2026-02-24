@@ -45,4 +45,17 @@ To Run:
     snakemake is able to see
 
 
-version as of 2/23/2026 2:46pm
+
+
+# Create subset of first 1000 reads (paired-end example)
+mkdir -p data/reads
+fastq-dump --split-files --stdout SRR5660030 | head -n 10000 > data/reads/subset_SRR5660030_1.fastq
+fastq-dump --split-files --stdout SRR5660033 | head -n 10000 > data/reads/subset_SRR5660033_1.fastq
+fastq-dump --split-files --stdout SRR5660044 | head -n 10000 > data/reads/subset_SRR5660044_1.fastq
+fastq-dump --split-files --stdout SRR5660045 | head -n 10000 > data/reads/subset_SRR5660045_1.fastq
+# You also need the second pair if paired-end
+fastq-dump --split-files --stdout SRR5660030 | tail -n +10001 | head -n 10000 > data/reads/subset_SRR5660030_2.fastq
+fastq-dump --split-files --stdout SRR5660033 | tail -n +10001 | head -n 10000 > data/reads/subset_SRR5660033_2.fastq
+fastq-dump --split-files --stdout SRR5660044 | tail -n +10001 | head -n 10000 > data/reads/subset_SRR5660044_2.fastq
+fastq-dump --split-files --stdout SRR5660045 | tail -n +10001 | head -n 10000 > data/reads/subset_SRR5660045_2.fastq
+
